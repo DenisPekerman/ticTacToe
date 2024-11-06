@@ -1,0 +1,15 @@
+
+
+class Main {
+
+    function void main() {
+        var Grid grid;
+        var DrawXandO drawXandO;
+        do Screen.clearScreen();
+
+        let drawXandO = DrawXandO.new();
+        let grid = Grid.new();
+        do grid.dispose();
+        return;
+    }
+}

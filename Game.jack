@@ -1,0 +1,40 @@
+class Game {
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    function int getIndexX(char keyPressed) {
+        if (keyPressed = "q" || keyPressed = "a" || keyPressed = "z") {
+            return 0;
+        }
+        if (keyPressed = "w" || keyPressed = "s" || keyPressed = "x") {
+            return 1;
+        }
+        if (keyPressed = "e" || keyPressed = "d" || keyPressed = "c") {
+            return 2;
+        }
+    return -1;
+    }
+
+    function int getIndexY(char keyPressed) {
+        if (keyPressed = "q" || keyPressed = "w" || keyPressed = "e") {
+            return 0;
+        }
+        if (keyPressed = "a" || keyPressed = "s" || keyPressed = "d") {
+            return 1;
+        }
+        if (keyPressed = "z" || keyPressed = "x" || keyPressed = "c") {
+            return 2;
+        }
+        return -1;
+    }
+}

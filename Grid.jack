@@ -1,0 +1,58 @@
+class Grid {
+    field int xStartPx;
+    field int yStartPx;
+    field int increment;
+
+    constructor Grid new () {
+        do _drawGrid();
+        return this;
+    }
+
+    method void dispose () {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void _drawGrid() {
+        var int yEndPx;
+        var int xEndPx;
+        let xStartPx = 128;
+        let yStartPx = 0;
+        let increment = 85;
+
+        while (xStartPx < 384) {
+            let yEndPx = 255;
+            do _drawLine(xStartPx, yStartPx, xStartPx, yEndPx);
+            let xStartPx = xStartPx + increment;
+        }
+
+        let xStartPx = 128;
+        let yStartPx = yStartPx + increment;
+
+        while (yStartPx < 255) {
+            let xEndPx = 383;
+            do _drawLine(xStartPx, yStartPx, xEndPx, yStartPx);
+            let yStartPx = yStartPx + increment;
+        }
+        return;
+    }
+
+    method void _drawLine(int x1, int y1, int x2, int y2) {
+        do Screen.setColor(true);
+        do Screen.drawLine(x1, y1, x2, y2);
+        return;
+    }
+
+
+    method void clear() {
+        return;
+    }
+
+    method boolean checkWin() {
+        return false;
+    }
+}
+
+
+
+
