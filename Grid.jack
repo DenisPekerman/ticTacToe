@@ -3,8 +3,11 @@ class Grid {
     field int yStartPx;
     field int increment;
 
-    constructor Grid new () {
-        do _drawGrid();
+    constructor Grid new(int xStartPx, int yStartPx, int increment) {
+        let xStartPx = xStartPx;
+        let yStartPx = yStartPx;
+        let increment = increment;
+        do _drawGrid(xStartPx, yStartPx, increment);
         return this;
     }
 
@@ -13,25 +16,23 @@ class Grid {
         return;
     }
 
-    method void _drawGrid() {
+    
+    method void _drawGrid(int xStartPx, int yStartPx, int increment) {
         var int yEndPx;
         var int xEndPx;
-        let xStartPx = 128;
-        let yStartPx = 0;
-        let increment = 85;
-
+        var int x1;
+        let x1 = xStartPx;
+        
         while (xStartPx < 384) {
             let yEndPx = 255;
             do _drawLine(xStartPx, yStartPx, xStartPx, yEndPx);
             let xStartPx = xStartPx + increment;
         }
-
-        let xStartPx = 128;
         let yStartPx = yStartPx + increment;
-
+        
         while (yStartPx < 255) {
             let xEndPx = 383;
-            do _drawLine(xStartPx, yStartPx, xEndPx, yStartPx);
+            do _drawLine(x1, yStartPx, xEndPx, yStartPx);
             let yStartPx = yStartPx + increment;
         }
         return;
@@ -42,16 +43,24 @@ class Grid {
         do Screen.drawLine(x1, y1, x2, y2);
         return;
     }
-
-
-    method void clear() {
-        return;
-    }
-
-    method boolean checkWin() {
-        return false;
-    }
 }
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

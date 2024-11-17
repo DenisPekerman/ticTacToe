@@ -3,13 +3,12 @@
 class Main {
 
     function void main() {
-        var Grid grid;
-        var DrawXandO drawXandO;
+        var Game game;
         do Screen.clearScreen();
 
-        let drawXandO = DrawXandO.new();
-        let grid = Grid.new();
-        do grid.dispose();
+        let game = Game.new();
+        do game.run();
+        do game.dispose();
         return;
     }
 }
