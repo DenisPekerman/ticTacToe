@@ -15,7 +15,6 @@ class Game {
         let drawXorY = DrawXorO.new(increment);
         let shape = 0;
         let pressedKeys = Array.new(9);
-
         return this;
     }
 
@@ -42,7 +41,6 @@ class Game {
         let done = false;
         let turnCount = 0;
 
-
         while (~done) {
             let key = Keyboard.keyPressed();
 
@@ -63,7 +61,7 @@ class Game {
                         let xPxl = xStartPx + (xIndex * increment);
                         let yPxl = yStartPx + (yIndex * increment);
                         do drawNextShape(xPxl, yPxl);
-                        // populate the arry with the shape used in a specific location
+                        // populate the arry with the current shape in a specific location
                         let pressedKeys[pressedKeyIndex] = shape;
                         let turnCount = turnCount + 1;
                         let win = checkWin();
