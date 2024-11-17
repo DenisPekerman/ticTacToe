@@ -1,40 +1,178 @@
 class Game {
+    field int xStartPx;
+    field int yStartPx;
+    field int increment;
+    field int shape;
+    field Array pressedKeys;
+    field Grid grid;
+    field DrawXorO drawXorY;
 
-    
+    constructor Game new() {
+        let xStartPx = 128;
+        let yStartPx = 0;
+        let increment = 85;
+        let grid = Grid.new(xStartPx, yStartPx, increment);
+        let drawXorY = DrawXorO.new(increment);
+        let shape = 0;
+        let pressedKeys = Array.new(9);
 
-
-
-
-
-
-
-
-
-
-
-    function int getIndexX(char keyPressed) {
-        if (keyPressed = "q" || keyPressed = "a" || keyPressed = "z") {
-            return 0;
-        }
-        if (keyPressed = "w" || keyPressed = "s" || keyPressed = "x") {
-            return 1;
-        }
-        if (keyPressed = "e" || keyPressed = "d" || keyPressed = "c") {
-            return 2;
-        }
-    return -1;
+        return this;
     }
 
-    function int getIndexY(char keyPressed) {
-        if (keyPressed = "q" || keyPressed = "w" || keyPressed = "e") {
+
+    method void dispose() {
+        do grid.dispose();
+        do drawXorY.dispose();
+        do pressedKeys.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+    method void run() {
+        var char key;
+        var int xPxl;
+        var int yPxl;
+        var int xIndex;
+        var int yIndex;
+        var int pressedKeyIndex;
+        var int win;
+        var int turnCount;
+        var boolean done;
+        let done = false;
+        let turnCount = 0;
+
+
+        while (~done) {
+            let key = Keyboard.keyPressed();
+
+            if (~(key = 0)) {
+                let xIndex = getIndexX(key);
+                let yIndex = getIndexY(key);
+                let pressedKeyIndex = getPressedKeyArrIndex(xIndex, yIndex);
+                
+                // pressedKey is 0 when it wasnt pressed, and !=0 if it was pressed.
+                if (~(pressedKeys[pressedKeyIndex] > 0)) {
+                    // ignore irrelevant keys
+                    if ((xIndex = -1) | (yIndex = -1)) {
+                        // do Output.printInt(xIndex);
+                        // do Output.printInt(yIndex);
+                    } 
+                    else { 
+                        // converts indices to pixels
+                        let xPxl = xStartPx + (xIndex * increment);
+                        let yPxl = yStartPx + (yIndex * increment);
+                        do drawNextShape(xPxl, yPxl);
+                        // populate the arry with the shape used in a specific location
+                        let pressedKeys[pressedKeyIndex] = shape;
+                        let turnCount = turnCount + 1;
+                        let win = checkWin();
+                        if (win = 1) {
+                            let done = true;
+                        }
+                        if (turnCount > 8) {
+                            let done = true;
+                        }
+                    } // else
+                } // if
+            } // if 
+        } // while
+
+        if (win) {
+            if (shape = 1) {
+                do Output.printString("X won");
+            }
+            if (shape = 2) {
+                do Output.printString("O won");
+            }
+        } 
+        else {
+            do Output.printString("GAME OVER");
+        }
+    return;
+    } // run    
+
+
+    // Converts matrix array indices to array index
+    method int getPressedKeyArrIndex(int indexX, int indexY) {
+        return indexY * 3 + indexX;
+    }
+
+
+    method int getIndexX(int key) {
+        if ((key = 113) | (key = 97) | (key = 122)) { // 'q', 'a', 'z'
             return 0;
         }
-        if (keyPressed = "a" || keyPressed = "s" || keyPressed = "d") {
+        if ((key = 119) | (key = 115) | (key = 120)) { // 'w', 's', 'x'
             return 1;
         }
-        if (keyPressed = "z" || keyPressed = "x" || keyPressed = "c") {
+        if ((key = 101) | (key = 100) | (key = 99)) { // 'e', 'd', 'c'
+            return 2;
+        }
+        return -1; 
+    }
+
+
+    method int getIndexY(int key) {
+        if ((key = 113) | (key = 119) | (key = 101)) { // 'q', 'w', 'e'
+            return 0;
+        }
+        if ((key = 97) | (key = 115) | (key = 100)) { // 'a', 's', 'd'
+            return 1;
+        }
+        if ((key = 122) | (key = 120) | (key = 99)) { // 'z', 'x', 'c'
             return 2;
         }
         return -1;
+    }
+
+
+    // 1 = X shape , 2 = O shape
+    method void drawNextShape(int xPxl, int yPxl) {
+        var int nextShape;
+        let nextShape = _getNextShape(shape);
+
+        if (nextShape = 1) {
+            do drawXorY.draw(1, xPxl, yPxl);
+       }
+        if (nextShape = 2) {
+            do drawXorY.draw(2, xPxl, yPxl);
+       }
+       let shape = nextShape;
+        return;
+    }
+
+
+    // 1 = X shape , 2 = O shape
+    method int _getNextShape(int prevShape) {
+        var int nextShape;
+        let nextShape = 0;
+
+        if (prevShape = 1) {
+            let nextShape = 2;
+        }
+        if ((prevShape = 2) | (prevShape = 0)) {
+            let nextShape = 1;
+        }
+        return nextShape;
+    }
+
+
+    method int checkWin() {
+        var int win;
+        let win = 0;
+        //rows
+        if ((pressedKeys[0] = pressedKeys[1]) & (pressedKeys[1] = pressedKeys[2]) & ~(pressedKeys[0] = 0)) {let win = 1;}
+        if ((pressedKeys[3] = pressedKeys[4]) & (pressedKeys[4] = pressedKeys[5]) & ~(pressedKeys[3] = 0)) {let win = 1;}
+        if ((pressedKeys[6] = pressedKeys[7]) & (pressedKeys[7] = pressedKeys[8]) & ~(pressedKeys[6] = 0)) {let win = 1;}
+        //columns
+        if ((pressedKeys[0] = pressedKeys[3]) & (pressedKeys[3] = pressedKeys[6]) & ~(pressedKeys[0] = 0)) {let win = 1;}
+        if ((pressedKeys[1] = pressedKeys[4]) & (pressedKeys[4] = pressedKeys[7]) & ~(pressedKeys[1] = 0)) {let win = 1;}
+        if ((pressedKeys[2] = pressedKeys[5]) & (pressedKeys[5] = pressedKeys[8]) & ~(pressedKeys[2] = 0)) {let win = 1;}
+        //diagonals
+        if ((pressedKeys[0] = pressedKeys[4]) & (pressedKeys[4] = pressedKeys[8]) & ~(pressedKeys[0] = 0)) {let win = 1;}
+        if ((pressedKeys[2] = pressedKeys[4]) & (pressedKeys[4] = pressedKeys[6]) & ~(pressedKeys[2] = 0)) {let win = 1;}
+
+        return win;
     }
 }
