@@ -49,7 +49,7 @@ class Game {
                 let yIndex = getIndexY(key);
                 let pressedKeyIndex = getPressedKeyArrIndex(xIndex, yIndex);
                 
-                // pressedKey is 0 when it wasnt pressed, and !=0 if it was pressed.
+                // pressedKeyIndex is 0 when a key wasnt pressed, and !=0 if it was pressed.
                 if (~(pressedKeys[pressedKeyIndex] > 0)) {
                     // ignore irrelevant keys
                     if ((xIndex = -1) | (yIndex = -1)) {
@@ -57,11 +57,11 @@ class Game {
                         // do Output.printInt(yIndex);
                     } 
                     else { 
-                        // converts indices to pixels
+                        // converts indices to pixels. 
                         let xPxl = xStartPx + (xIndex * increment);
                         let yPxl = yStartPx + (yIndex * increment);
                         do drawNextShape(xPxl, yPxl);
-                        // populate the arry with the current shape in a specific location
+                        // populate the array with the current shape in a specific index
                         let pressedKeys[pressedKeyIndex] = shape;
                         let turnCount = turnCount + 1;
                         let win = checkWin();
@@ -91,7 +91,7 @@ class Game {
     } // run    
 
 
-    // Converts matrix array indices to array index
+    // Converts matrix indices to array indexs 0-8
     method int getPressedKeyArrIndex(int indexX, int indexY) {
         return indexY * 3 + indexX;
     }
