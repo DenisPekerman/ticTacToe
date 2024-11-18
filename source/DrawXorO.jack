@@ -1,3 +1,6 @@
+// I could skip this class and put all those methods together with the draw grid 
+// but i desided to keep it seperate for the sake of organization.
+
 class DrawXorO {
     field int increment;
     
@@ -11,6 +14,7 @@ class DrawXorO {
         return;
     }
 
+
     method void draw(int shape, int xStartPx, int yStartPx) {
         var int location;
         if (shape = 1) {    
@@ -21,8 +25,8 @@ class DrawXorO {
             do drawO(xStartPx, yStartPx);
         }
         return;
-
     }
+
 
     method void drawO(int x, int y) {
         var int radius;
@@ -33,10 +37,10 @@ class DrawXorO {
         do Screen.setColor(true);
         do Screen.drawCircle(x, y ,radius);
         do Screen.setColor(false);
-        do Screen.drawCircle(x, y, radius - 2);
-        
+        do Screen.drawCircle(x, y, radius - 2);        
         return;
     }
+
 
     method void drawX(int location) {
         var int memAddress;

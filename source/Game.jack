@@ -1,3 +1,8 @@
+// Welcome to tic tac toe!
+// use the letters q,w,e,a,s,d,z,x,c to place your shape
+// each letter corresponds to a location on a 3*3 grid
+// first shape is x 
+
 class Game {
     field int xStartPx;
     field int yStartPx;
@@ -22,11 +27,14 @@ class Game {
     method void dispose() {
         do grid.dispose();
         do drawXorY.dispose();
-        do pressedKeys.dispose();
+        do Memory.deAlloc(Array pressedKeys);
         do Memory.deAlloc(this);
         return;
     }
 
+    // xPxl/yPxl represents actual pixel numbers on the screen.
+    // xIndex/yIndex represents indicis in a 3*3 grid where the top left one is 0,0.
+    // pressedKeyIndex represents the indicis  0-8 inside the array.
 
     method void run() {
         var char key;
@@ -51,7 +59,7 @@ class Game {
                 
                 // pressedKeyIndex is 0 when a key wasnt pressed, and !=0 if it was pressed.
                 if (~(pressedKeys[pressedKeyIndex] > 0)) {
-                    // ignore irrelevant keys
+                    // ignore irrelevant keys.
                     if ((xIndex = -1) | (yIndex = -1)) {
                         // do Output.printInt(xIndex);
                         // do Output.printInt(yIndex);
@@ -61,7 +69,7 @@ class Game {
                         let xPxl = xStartPx + (xIndex * increment);
                         let yPxl = yStartPx + (yIndex * increment);
                         do drawNextShape(xPxl, yPxl);
-                        // populate the array with the current shape in a specific index
+                        // populate the array with the current shape in a specific index.
                         let pressedKeys[pressedKeyIndex] = shape;
                         let turnCount = turnCount + 1;
                         let win = checkWin();
@@ -91,7 +99,7 @@ class Game {
     } // run    
 
 
-    // Converts matrix indices to array indexs 0-8
+    // Converts matrix indices to array index 0-8
     method int getPressedKeyArrIndex(int indexX, int indexY) {
         return indexY * 3 + indexX;
     }

@@ -16,7 +16,7 @@ class Grid {
         return;
     }
 
-    
+    // Draws a 3*3 matrix
     method void _drawGrid(int xStartPx, int yStartPx, int increment) {
         var int yEndPx;
         var int xEndPx;
@@ -37,6 +37,7 @@ class Grid {
         }
         return;
     }
+
 
     method void _drawLine(int x1, int y1, int x2, int y2) {
         do Screen.setColor(true);
